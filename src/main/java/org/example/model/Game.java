@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 public class Game {
-
     private Set<Long> playersIds = new HashSet<>();
     private Long id;
     private final Board board;
