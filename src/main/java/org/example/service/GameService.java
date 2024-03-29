@@ -14,8 +14,9 @@ public class GameService {
 
     private final GameDao gameDao;
 
-    public void createGame(Set<Long> playerId) {
+    public long createGame(Set<Long> playerId) {
         Game game = gameDao.saveGame(new Game(playerId));
+        return game.getId();
     }
 
     private boolean isPlayerIncluded(long gameId, long playerId) {

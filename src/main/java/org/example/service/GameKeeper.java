@@ -26,13 +26,15 @@ public class GameKeeper {
         return gameSession;
     }
 
-    public void connectToGame(long gameId, PlayerSession session) {
+    public Game connectToGame(long gameId, PlayerSession session) {
         GameSession gameSession = getGameSession(gameId);
         if (gameSession == null) {
             Game game = gameService.getGame(gameId);
             gameSession = addGame(game);
         }
         gameSession.addPlayer(session);
+
+        return gameSession.getGame();
     }
 
 
@@ -40,11 +42,11 @@ public class GameKeeper {
         return games.stream().filter(g -> g.getGame().getId() == gameId).findFirst().orElse(null);
     }
 
-    public List<Integer> getPossibleMoves() {
-        return new ArrayList<>();
+    public List<Integer> getPossibleMoves(long gameId, int from) {
+        return getGameSession(gameId).getGame().getPossibleMoves(from);
     }
 
-    public void makeMove(long gameId, int from, int to, PlayerColor color) {
+    public Game makeMove(long gameId, int from, int to, PlayerColor color) {
         GameSession gameSession = getGameSession(gameId);
         if (gameSession.getGame().isPlayersTurn(color)) {
             gameSession.getGame().makeMove(from, to);
@@ -52,5 +54,6 @@ public class GameKeeper {
         } else {
             throw new RuntimeException("Not your turn");
         }
+        return gameSession.getGame();
     }
 }

@@ -3,6 +3,8 @@ package org.example.model;
 import org.example.exception.InvalidMoveException;
 import org.example.logic.piece.MoveValidator;
 
+import java.util.ArrayList;
+
 import static org.example.logic.piece.MoveValidator.*;
 
 public class Board {
@@ -44,6 +46,10 @@ public class Board {
             }
         }
         printOutBoard();
+    }
+
+    public ArrayList<Integer> getPossibleMoves(int from) {
+        return MoveValidator.getPossibleMoves(from, state, whiteToMove);
     }
 
     private void updateCurrentState(int from, int to) {

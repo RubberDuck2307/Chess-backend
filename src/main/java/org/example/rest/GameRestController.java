@@ -1,7 +1,9 @@
 package org.example.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.example.rest.dto.game.NewGameResponseDto;
 import org.example.service.GameService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +18,8 @@ public class GameRestController {
 
 
     @PostMapping("/")
-    public void createGame() {
-        gameService.createGame(Set.of(1L, 2L));
+    public ResponseEntity<NewGameResponseDto> createGame() {
+        long id = gameService.createGame(Set.of(1L, 2L));
+        return ResponseEntity.ok(new NewGameResponseDto(id));
     }
 }

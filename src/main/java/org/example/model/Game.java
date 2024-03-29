@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.exception.InvalidMoveException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,14 @@ public class Game {
     public Game() {
         this.board = new Board();
         this.board.reset();
+    }
+
+    public PlayerColor getCurrentPlayerColor() {
+        return board.isWhiteToMove() ? PlayerColor.WHITE : PlayerColor.BLACK;
+    }
+
+    public ArrayList<Integer> getPossibleMoves(int from) {
+        return board.getPossibleMoves(from);
     }
 
     public void makeMove(int from, int to) {

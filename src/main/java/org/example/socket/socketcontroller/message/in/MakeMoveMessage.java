@@ -1,4 +1,4 @@
-package org.example.socket.socketcontroller.message;
+package org.example.socket.socketcontroller.message.in;
 
 
 import lombok.Getter;

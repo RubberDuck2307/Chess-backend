@@ -1,5 +1,7 @@
 package org.example.logic.piece;
 
+import java.util.ArrayList;
+
 import static org.example.logic.piece.Piece.haveDifferentColor;
 import static org.example.logic.piece.Piece.isWhite;
 
@@ -75,6 +77,16 @@ public class MoveValidator {
         newStateString = newStateString.replace("a", "p");
 
         return newStateString;
+    }
+
+    public static ArrayList<Integer> getPossibleMoves(int from, String state, boolean whiteToMove) {
+        ArrayList<Integer> possibleMoves = new ArrayList<>();
+        for (int i = 0; i < state.length(); i++) {
+            if (isValidMove(from, i, state, whiteToMove)) {
+                possibleMoves.add(i);
+            }
+        }
+        return possibleMoves;
     }
 
 
