@@ -44,7 +44,6 @@ public class GameSocketController extends TextWebSocketHandler {
                 logger.warning("Received message is not a valid message error:" + e.getMessage());
                 return;
             }
-
             try {
                 switch (parsedMessage.getType()) {
                     case GET_POSSIBLE_MOVES:
