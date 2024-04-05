@@ -14,6 +14,7 @@ public enum PlayerColor {
     public static PlayerColor getEnum(String color) {
         if (color == null)
             return null;
+        color = color.toLowerCase();
         if (color.equals("black"))
             return BLACK;
         else if (color.equals("white"))

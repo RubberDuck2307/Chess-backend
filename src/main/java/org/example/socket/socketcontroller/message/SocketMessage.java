@@ -18,8 +18,8 @@ public class SocketMessage {
     public enum MessageType {
 
         GET_POSSIBLE_MOVES("getPossibleMoves"),
-        BOARD("board")
-        ;
+        BOARD("board"),
+        MAKE_MOVE("makeMove");
 
         private final String type;
 

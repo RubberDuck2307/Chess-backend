@@ -38,7 +38,7 @@ public class GameKeeper {
     }
 
 
-    private GameSession getGameSession(long gameId) {
+    public GameSession getGameSession(long gameId) {
         return games.stream().filter(g -> g.getGame().getId() == gameId).findFirst().orElse(null);
     }
 

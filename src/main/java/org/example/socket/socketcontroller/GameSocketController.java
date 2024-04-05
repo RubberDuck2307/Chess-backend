@@ -50,17 +50,14 @@ public class GameSocketController extends TextWebSocketHandler {
                     case GET_POSSIBLE_MOVES:
                         gameMessageHandler.handleGetPossibleMovesMessage(messageString, session);
                         break;
+                    case MAKE_MOVE:
+                        gameMessageHandler.handleMakeMoveMessage(messageString, session);
                     default:
                         logger.warning("Received message is not a valid message");
                 }
-            } catch (IllegalArgumentException e) {
-                logger.warning("Received message is not a valid message");
+            } catch (Exception e) {
+                logger.warning("Error occurred while handling a message" + e);
             }
-//
-//            String gameId = UriUtils.extractPathAttributes(session.getUri(), "gameId");
-//            MakeMoveMessage makeMoveMessage = objectMapper.readValue((String) payload, MakeMoveMessage.class);
-//            PlayerColor color = PlayerColor.getEnum(UriUtils.extractPathAttributes(session.getUri(), "color"));
-//            gameKeeper.makeMove(Long.parseLong(gameId), makeMoveMessage.getFrom(), makeMoveMessage.getTo(), color);
         } else {
             logger.warning("Received message is not a string");
         }
@@ -75,7 +72,7 @@ public class GameSocketController extends TextWebSocketHandler {
             session.close(CloseStatus.BAD_DATA);
             return;
         }
-        Game game = gameKeeper.connectToGame(Long.parseLong(gameId), new PlayerSession(session.getId()));
+        Game game = gameKeeper.connectToGame(Long.parseLong(gameId), new PlayerSession(session.getId(), session));
         BoardMessage boardMessage = new BoardMessage(game.getBoard().getState(), game.getId(), game.getCurrentPlayerColor());
         session.sendMessage(jsonMessageFactory.createMessage(boardMessage));
     }

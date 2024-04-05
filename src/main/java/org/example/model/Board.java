@@ -13,10 +13,12 @@ public class Board {
     private boolean whiteToMove = true;
 
     public Board() {
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < 7; i++) {
-            state += "-".repeat(8);
-            state += ";";
+            builder.append("-".repeat(8));
+            builder.append(";");
         }
+        state = builder.toString();
     }
 
     public void reset() {
