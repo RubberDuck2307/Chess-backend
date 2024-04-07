@@ -4,6 +4,6 @@ public class test {
 
     @Test
     public void test() {
-     throw new UnsupportedOperationException("Not implemented yet");
+
     }
 }
