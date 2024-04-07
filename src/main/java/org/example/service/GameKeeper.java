@@ -8,16 +8,15 @@ import org.example.service.model.PlayerSession;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class GameKeeper {
 
     private final GameService gameService;
-
+    private final Logger logger = Logger.getLogger(GameKeeper.class.getName());
     List<GameSession> games = new ArrayList<>();
 
     public GameSession addGame(Game game) {
@@ -33,7 +32,7 @@ public class GameKeeper {
             gameSession = addGame(game);
         }
         gameSession.addPlayer(session);
-
+        logger.info("Player connected to game " + gameId + " with color " + session.getColor());
         return gameSession.getGame();
     }
 

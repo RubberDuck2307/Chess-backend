@@ -13,5 +13,6 @@ public class PlayerSession {
 
     private String id;
     private WebSocketSession session;
+    private PlayerColor color;
 
 }

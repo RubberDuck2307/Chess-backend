@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.example.exception.InvalidMoveException;
 import org.example.model.PlayerColor;
 import org.example.service.GameKeeper;
+import org.example.socket.socketcontroller.GameSocketController;
 import org.example.socket.socketcontroller.message.in.GetPossibleMovesRequestMessage;
 import org.example.socket.socketcontroller.message.in.MakeMoveMessage;
 import org.example.socket.socketcontroller.message.out.BoardMessage;
@@ -18,6 +19,9 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Logger;
+
+import static org.example.socket.socketcontroller.GameSocketController.COLOR;
+import static org.example.socket.socketcontroller.GameSocketController.GAME_ID;
 
 @Service
 @AllArgsConstructor
@@ -36,7 +40,7 @@ public class GameMessageHandler {
             throw new IllegalArgumentException("Invalid message type");
         }
 
-        long gameId = Long.parseLong(UriUtils.extractPathAttributes(Objects.requireNonNull(session.getUri()), "gameId"));
+        long gameId = Long.parseLong(UriUtils.extractPathAttributes(Objects.requireNonNull(session.getUri()), GAME_ID));
         var possibleMoves = gameKeeper.getPossibleMoves(gameId, message.getFrom());
         GetPossibleMovesResponseMessage responseMessage = new GetPossibleMovesResponseMessage(possibleMoves, gameId);
         session.sendMessage(jsonMessageFactory.createMessage(responseMessage));
@@ -49,8 +53,8 @@ public class GameMessageHandler {
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("Invalid message type");
         }
-        String gameId = UriUtils.extractPathAttributes(session.getUri(), "gameId");
-        PlayerColor color = PlayerColor.getEnum(UriUtils.extractPathAttributes(session.getUri(), "color"));
+        String gameId = UriUtils.extractPathAttributes(session.getUri(), GAME_ID);
+        PlayerColor color = PlayerColor.getEnum(UriUtils.extractPathAttributes(session.getUri(), COLOR));
         try {
             gameKeeper.makeMove(Long.parseLong(gameId), message.getFrom(), message.getTo(), color);
         } catch (InvalidMoveException e) {
@@ -63,7 +67,7 @@ public class GameMessageHandler {
                     try {
                         playerSession.getSession().sendMessage(jsonMessageFactory.createMessage(newBoard));
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        logger.warning("Error occurred while sending a message" + e);
                     }
                 });
     }

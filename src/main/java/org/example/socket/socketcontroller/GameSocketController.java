@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.example.model.Game;
+import org.example.model.PlayerColor;
 import org.example.service.GameKeeper;
 import org.example.service.model.PlayerSession;
 import org.example.socket.socketcontroller.message.handler.GameMessageHandler;
@@ -30,7 +31,8 @@ public class GameSocketController extends TextWebSocketHandler {
     private final JsonMessageFactory jsonMessageFactory;
     private final GameMessageHandler gameMessageHandler;
     private final Logger logger = Logger.getLogger(GameSocketController.class.getName());
-
+    public static final String GAME_ID = "gameId";
+    public static final String COLOR = "color";
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws IOException {
         Object payload = message.getPayload();
@@ -66,12 +68,13 @@ public class GameSocketController extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws IOException {
         //@TODO Authentication
 
-        String gameId = UriUtils.extractPathAttributes(session.getUri(), "gameId");
+        String gameId = UriUtils.extractPathAttributes(session.getUri(), GAME_ID);
+        PlayerColor playerColor = PlayerColor.valueOf(UriUtils.extractPathAttributes(session.getUri(), COLOR));
         if (gameId == null) {
             session.close(CloseStatus.BAD_DATA);
             return;
         }
-        Game game = gameKeeper.connectToGame(Long.parseLong(gameId), new PlayerSession(session.getId(), session));
+        Game game = gameKeeper.connectToGame(Long.parseLong(gameId), new PlayerSession(session.getId(), session, playerColor));
         BoardMessage boardMessage = new BoardMessage(game.getBoard().getState(), game.getId(), game.getCurrentPlayerColor());
         session.sendMessage(jsonMessageFactory.createMessage(boardMessage));
     }
