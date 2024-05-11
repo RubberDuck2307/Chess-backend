@@ -32,6 +32,11 @@ jobs:
         with:
           name: jacoco_test_report
           path: coverage
+      - name : Download latest test reports
+        uses: actions/download-artifact@v3
+        with:
+          name: gradle-tests
+          path: build/reports/tests
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
