@@ -30,7 +30,7 @@ jobs:
       - name: Download latest test coverage report
         uses: actions/download-artifact@v3
         with:
-          name: jacoco_test_report
+          name: test_report
           path: coverage
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
