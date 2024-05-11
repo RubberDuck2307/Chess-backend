@@ -34,10 +34,8 @@ jobs:
       - name: Store reports
         uses: actions/upload-artifact@v3
         with:
-          name: reports
-          path: |
-            **/build/reports/
-            **/build/test-results/
+          name: jacoco_test_report
+          path: build/reports/jacoco/test/html
   update_coverage_report:
     needs: build
     permissions:
