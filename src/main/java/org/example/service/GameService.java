@@ -1,30 +1,34 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.data_access.GameDao;
 import org.example.model.Game;
+import org.example.persistence.game.GameEntity;
+import org.example.persistence.repo.GameRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class GameService {
 
-    private final GameDao gameDao;
+    private final GameRepository gameRepository;
 
     public long createGame(Set<Long> playerId) {
-        Game game = gameDao.saveGame(new Game(playerId));
+        GameEntity game = gameRepository.save(new GameEntity());
         return game.getId();
     }
 
     private boolean isPlayerIncluded(long gameId, long playerId) {
-        return gameDao.getGame(gameId).getPlayersIds().contains(playerId);
+        return true;
     }
 
 
     public Game getGame(long gameId) {
-        return gameDao.getGame(gameId);
+        var game = gameRepository.findById(gameId).orElse(null);
+        if (game == null) {
+            return null;
+        }
+        return new Game();
     }
 }
