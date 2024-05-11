@@ -69,13 +69,14 @@ public class GameSocketController extends TextWebSocketHandler {
         //@TODO Authentication
 
         String gameId = UriUtils.extractPathAttributes(session.getUri(), GAME_ID);
-        PlayerColor playerColor = PlayerColor.valueOf(UriUtils.extractPathAttributes(session.getUri(), COLOR));
+        String color = UriUtils.extractPathAttributes(session.getUri(), COLOR);
+        PlayerColor playerColor = PlayerColor.valueOf(color.toUpperCase());
         if (gameId == null) {
             session.close(CloseStatus.BAD_DATA);
             return;
         }
         Game game = gameKeeper.connectToGame(Long.parseLong(gameId), new PlayerSession(session.getId(), session, playerColor));
-        BoardMessage boardMessage = new BoardMessage(game.getBoard().getState(), game.getId(), game.getCurrentPlayerColor());
+        BoardMessage boardMessage = new BoardMessage(game.getBoardState(), game.getId(), game.getCurrentPlayerColor());
         session.sendMessage(jsonMessageFactory.createMessage(boardMessage));
     }
 
@@ -83,6 +84,8 @@ public class GameSocketController extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
 
     }
+
+
 
 
 }

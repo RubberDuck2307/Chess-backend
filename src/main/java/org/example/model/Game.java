@@ -42,4 +42,9 @@ public class Game {
     public boolean isPlayersTurn(PlayerColor playerColor) {
         return board.isPlayersTurn(playerColor);
     }
+
+    public String getBoardState() {
+        return board.getState();
+    }
+
 }

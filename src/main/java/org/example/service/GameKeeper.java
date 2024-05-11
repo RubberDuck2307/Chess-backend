@@ -1,5 +1,6 @@
 package org.example.service;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.model.Game;
 import org.example.model.PlayerColor;
@@ -55,4 +56,5 @@ public class GameKeeper {
         }
         return gameSession.getGame();
     }
+
 }
