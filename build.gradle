@@ -66,5 +66,3 @@ tasks.create(name: "testCoverage", type: JacocoReport, dependsOn: "test") {
 
     executionData.from = files("${project.buildDir}/jacoco/test.exec")
 }
-
-tasks.build.dependsOn(tasks.testCoverage)
