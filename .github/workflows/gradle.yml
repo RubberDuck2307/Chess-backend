@@ -37,3 +37,7 @@ jobs:
         with:
           script: |
             core.setFailed('Overall test coverage is less than 1%!')
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
