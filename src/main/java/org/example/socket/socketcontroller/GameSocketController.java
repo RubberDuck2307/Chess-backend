@@ -82,7 +82,6 @@ public class GameSocketController extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-
     }
 
 
