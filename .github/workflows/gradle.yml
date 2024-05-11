@@ -31,15 +31,15 @@ jobs:
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
       - name: Build with Gradle Wrapper
         run: ./gradlew build
-      - name: Store jacoco report
-        uses: actions/upload-artifact@v3
-        with:
-          name: jacoco_test_report
-          path: build/reports/jacoco/test/html
+#      - name: Store jacoco report
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: jacoco_test_report
+#          path: build/reports/jacoco/test/html
       - name: Store test reports
         uses: actions/upload-artifact@v3
         with:
-          name: gradle-tests
+          name: jacoco_test_report
           path: build/reports/tests/test
   update_coverage_report:
     needs: build

@@ -27,28 +27,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-#      - name: Download latest test coverage report
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: jacoco_test_report
-#          path: coverage
-      - name : Download latest test reports
+      - name: Download latest test coverage report
         uses: actions/download-artifact@v3
         with:
-          name: gradle-tests
-          path: tests
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-##      - name: Upload artifact
-##        uses: actions/upload-pages-artifact@v2
-##        with:
-#          # Upload the coverage directory from the repository
-#          path: './coverage/'
-      - name: Upload Gradle test reports to GitHub Pages
+          name: jacoco_test_report
+          path: coverage
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          name: gradle-tests
-          path: './tests/'
+          # Upload the coverage directory from the repository
+          path: './coverage/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
