@@ -39,6 +39,11 @@ jobs:
         with:
           # Upload the coverage directory from the repository
           path: './coverage/'
+      - name: Upload Gradle test reports to GitHub Pages
+        uses: actions/upload-artifact@v2
+        with:
+          name: gradle-tests
+          path: build/reports/tests
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
