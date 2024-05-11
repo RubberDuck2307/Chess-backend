@@ -38,3 +38,10 @@ jobs:
           path: |
             **/build/reports/
             **/build/test-results/
+  update_coverage_report:
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/test_coverage_report.yaml
