@@ -56,4 +56,4 @@ jobs:
       contents: read
     steps:
       - name: deploy
-        uses: ./.github/workflows/deploy.yaml
+        uses: ./.github/workflows/deploy_to_minikube.yaml
