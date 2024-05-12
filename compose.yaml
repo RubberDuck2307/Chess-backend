@@ -2,7 +2,7 @@ services:
   backend:
     image: backend:latest
     ports:
-      - 8090:8080
+      - 8080:8080
     restart: always
     depends_on:
       - db
@@ -24,3 +24,5 @@ services:
     ports:
       - 3000:3000
     restart: always
+    depends_on:
+      - backend

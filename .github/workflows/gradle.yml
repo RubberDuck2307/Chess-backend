@@ -34,7 +34,7 @@ jobs:
       - name: Store jacoco report
         uses: actions/upload-artifact@v3
         with:
-          name: jacoco_test_report
+          name: jacoco_coverage_report
           path: build/reports/jacoco/test/html
       - name: Store test reports
         uses: actions/upload-artifact@v3

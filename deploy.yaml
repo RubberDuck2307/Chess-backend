@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chess_backend
+  labels:
+    app: chess_backend
+spec:
+  selector:
+    matchLabels:
+      app: chess_backend
+  replicas: 1 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      name: chess_backend
+      labels:
+        app: chess_backend
+    spec:
+      containers:
+        - name: chess_backend
+          image: local/chess_backend:latest # Image to be used inside the cluster
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://db:5432/postgres"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgres"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "password"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+        - name: postgres
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "password"
+            - name: POSTGRES_DB
+              value: "postgres"
