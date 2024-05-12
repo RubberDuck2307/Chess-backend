@@ -1,9 +1,16 @@
+FROM gradle:latest AS BUILD
+
+WORKDIR /usr/app/
+
+COPY . .
+
+RUN gradle build -x test
+
 FROM openjdk:21-jdk
 
-WORKDIR /app
-
+ENV JAR_NAME=chess-1.0-SNAPSHOT.jar
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY --from=BUILD $APP_HOME .
 EXPOSE 8080
-
-COPY /build/libs/*.jar app.jar
-
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT exec java -jar $APP_HOME/build/libs/$JAR_NAME
