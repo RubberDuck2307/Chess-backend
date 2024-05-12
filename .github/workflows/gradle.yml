@@ -41,19 +41,49 @@ jobs:
         with:
           name: test_report
           path: build/reports/tests/test
-#  update_coverage_report:
-#    needs: build
-#    permissions:
-#      contents: read
-#      pages: write
-#      id-token: write
-#    uses: ./.github/workflows/test_coverage.yaml
-#
+  #  update_coverage_report:
+  #    needs: build
+  #    permissions:
+  #      contents: read
+  #      pages: write
+  #      id-token: write
+  #    uses: ./.github/workflows/test_coverage.yaml
+  #
   deploy:
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
-      - name: deploy
-        uses: ./.github/workflows/deploy_to_minikube.yaml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: start minikube
+        run: minikube start
+        id: minikube
+        uses: medyagh/setup-minikube@latest
+      - name: Try the cluster !
+        run: kubectl get pods -A
+      - name: Build Image
+        run: |
+          export SHELL=/bin/bash
+          eval $(minikube -p minikube docker-env) 
+          docker build -f ./Dockerfile -t chess_backend .
+          echo -n "Verifying images: "
+          docker images
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f deploy.yaml
+          kubectl apply -f service.yaml
+          kubectl wait --for=condition=Ready pod -l app=chess_backend
+          kubectl get all
+      - name: Test service URLs
+        run: |
+          echo "CLUSTER_IP=$(kubectl get service chess_backend --output='jsonpath={.spec.clusterIPs[0]}')"
+          echo "SERVICE_URL=$(minikube service chess_backend --url)"
+          kubectl port-forward service/chess_backend 8080:8080 &> /dev/null &
+      - run: |
+          curl -i http://localhost:8080/game/
+      - name: Cleanup
+        run: |
+          eval $(minikube docker-env -u)
+          minikube delete
