@@ -30,7 +30,7 @@ jobs:
         run: |
           kubectl apply -f deploy.yaml
           kubectl apply -f service.yaml
-          kubectl wait --for=condition=Ready pod -l app=chess_backend
+          kubectl wait --for=condition=Ready pod -l app=chess-backend
           kubectl get all
       - name: Test service URLs
         run: |
