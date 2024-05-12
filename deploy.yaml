@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chess_backend
+  name: chess-backend
   labels:
-    app: chess_backend
+    app: chess-backend
 spec:
   selector:
     matchLabels:
-      app: chess_backend
+      app: chess-backend
   replicas: 1 # Number of replicas that will be created for this deployment
   template:
     metadata:
-      name: chess_backend
+      name: chess-backend
       labels:
-        app: chess_backend
+        app: chess-backend
     spec:
       containers:
-        - name: chess_backend
+        - name: chess-backend
           image: local/chess_backend:latest # Image to be used inside the cluster
           imagePullPolicy: Never
           ports:

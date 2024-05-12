@@ -8,9 +8,7 @@ RUN gradle build -x test
 
 FROM openjdk:21-jdk
 
-ENV JAR_NAME=chess-1.0-SNAPSHOT.jar
-ENV APP_HOME=/usr/app/
-WORKDIR $APP_HOME
-COPY --from=BUILD $APP_HOME .
+WORKDIR /usr/app/
+COPY --from=BUILD /usr/app/ .
 EXPOSE 8080
-ENTRYPOINT exec java -jar $APP_HOME/build/libs/$JAR_NAME
+ENTRYPOINT exec java -jar /usr/app/build/libs/chess-1.0-SNAPSHOT.jar
