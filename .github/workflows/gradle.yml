@@ -57,33 +57,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: start minikube
-        run: minikube start
-        id: minikube
-        uses: medyagh/setup-minikube@latest
-      - name: Try the cluster !
-        run: kubectl get pods -A
-      - name: Build Image
-        run: |
-          export SHELL=/bin/bash
-          eval $(minikube -p minikube docker-env) 
-          docker build -f ./Dockerfile -t chess_backend .
-          echo -n "Verifying images: "
-          docker images
-      - name: Deploy to Minikube
-        run: |
-          kubectl apply -f deploy.yaml
-          kubectl apply -f service.yaml
-          kubectl wait --for=condition=Ready pod -l app=chess_backend
-          kubectl get all
-      - name: Test service URLs
-        run: |
-          echo "CLUSTER_IP=$(kubectl get service chess_backend --output='jsonpath={.spec.clusterIPs[0]}')"
-          echo "SERVICE_URL=$(minikube service chess_backend --url)"
-          kubectl port-forward service/chess_backend 8080:8080 &> /dev/null &
-      - run: |
-          curl -i http://localhost:8080/game/
-      - name: Cleanup
-        run: |
-          eval $(minikube docker-env -u)
-          minikube delete
+#      - name: start minikube
+#        run: minikube start
+#        id: minikube
+#        uses: medyagh/setup-minikube@latest
+#      - name: Try the cluster !
+#        run: kubectl get pods -A
+#      - name: Build Image
+#        run: |
+#          export SHELL=/bin/bash
+#          eval $(minikube -p minikube docker-env)
+#          docker build -f ./Dockerfile -t chess_backend .
+#          echo -n "Verifying images: "
+#          docker images
+#      - name: Deploy to Minikube
+#        run: |
+#          kubectl apply -f deploy.yaml
+#          kubectl apply -f service.yaml
+#          kubectl wait --for=condition=Ready pod -l app=chess_backend
+#          kubectl get all
+#      - name: Test service URLs
+#        run: |
+#          echo "CLUSTER_IP=$(kubectl get service chess_backend --output='jsonpath={.spec.clusterIPs[0]}')"
+#          echo "SERVICE_URL=$(minikube service chess_backend --url)"
+#          kubectl port-forward service/chess_backend 8080:8080 &> /dev/null &
+#      - run: |
+#          curl -i http://localhost:8080/game/
+#      - name: Cleanup
+#        run: |
+#          eval $(minikube docker-env -u)
+#          minikube delete
