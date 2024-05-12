@@ -41,13 +41,14 @@ jobs:
         with:
           name: test_report
           path: build/reports/tests/test
-  update_coverage_report:
-    needs: build
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    uses: ./.github/workflows/test_coverage.yaml
+#  update_coverage_report:
+#    needs: build
+#    permissions:
+#      contents: read
+#      pages: write
+#      id-token: write
+#    uses: ./.github/workflows/test_coverage.yaml
+#
   deploy:
     needs: build
     runs-on: ubuntu-latest
