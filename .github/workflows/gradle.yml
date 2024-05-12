@@ -52,6 +52,4 @@ jobs:
     needs: build
     permissions:
       contents: read
-    steps:
-      - name: deploy
-        run: ./.github/workflows/deploy.yaml
+    uses: ./.github/workflows/deploy.yaml
