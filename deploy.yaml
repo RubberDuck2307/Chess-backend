@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: chess-backend
-          image: local/chess_backend:latest # Image to be used inside the cluster
+          image: local/backend:latest # Image to be used inside the cluster
           imagePullPolicy: Never
           ports:
             - containerPort: 8080

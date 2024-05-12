@@ -23,7 +23,7 @@ jobs:
         run: |
           export SHELL=/bin/bash
           eval $(minikube -p minikube docker-env) 
-          docker build -f ./Dockerfile -t chess_backend .
+          docker build -f ./Dockerfile -t backend .
           echo -n "Verifying images: "
           docker images
       - name: Deploy to Minikube
