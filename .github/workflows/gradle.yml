@@ -48,3 +48,8 @@ jobs:
       pages: write
       id-token: write
     uses: ./.github/workflows/test_coverage.yaml
+  deploy:
+    needs: build
+    permissions:
+      contents: read
+    uses: ./.github/workflows/deploy.yaml
