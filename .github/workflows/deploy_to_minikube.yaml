@@ -41,19 +41,9 @@ jobs:
           POD_NAME=$(kubectl get pods -l app=chess-backend -o jsonpath='{.items[0].metadata.name}')
           kubectl logs pod/$POD_NAME
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
-
+          sleep 10
       - run: |
-          MAX_ATTEMPTS=30  # Set the maximum number of attempts
-          ATTEMPT=0
-          while ! curl -s localhost:8080/game/; do
-            ((ATTEMPT++))  # Increment the attempt counter
-            if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
-              echo "Maximum attempts reached, exiting..."
-             exit 1  # Exit with a non-zero status to indicate failure
-            fi
-            sleep 1  # Wait for 1 second before the next attempt
-          done
-          echo "Server is up!"
+          curl -l localhost:8080/game/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
