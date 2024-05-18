@@ -25,7 +25,7 @@ jobs:
           eval $(minikube -p minikube docker-env) 
           docker build -f ./Dockerfile -t backend .
           echo -n "Verifying images: "
-#        docker images
+          docker images
       - name: Deploy to Minikube
         run: |
           kubectl apply -f deploy.yaml
