@@ -51,7 +51,6 @@ jobs:
   #
   deploy:
 #    needs: build
-    runs-on: ubuntu-latest
     permissions:
       contents: read
     uses: ./.github/workflows/deploy_to_minikube.yaml
