@@ -37,9 +37,7 @@ jobs:
           echo "SERVICE_URL=$(minikube service chess-backend --url)"
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
       - run: |
-          url=$(minikube service chess-backend --url)
-          echo "URL: $url"
-          curl -i "${url}/game/"
+          curl -l localhost:8080/game/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
