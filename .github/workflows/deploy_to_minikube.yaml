@@ -36,6 +36,12 @@ jobs:
           echo "CLUSTER_IP=$(kubectl get service chess-backend --output='jsonpath={.spec.clusterIPs[0]}')"
           echo "SERVICE_URL=$(minikube service chess-backend --url)"
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
+          kubectl get pods -l app=chess-backend
+          kubectl get services chess-backend
+          POD_NAME=$(kubectl get pods -l app=chess-backend -o jsonpath='{.items[0].metadata.name}')
+          kubectl logs pod/$POD_NAME
+          kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
+
       - run: |
           curl -l localhost:8080/game/
       - name: Cleanup
