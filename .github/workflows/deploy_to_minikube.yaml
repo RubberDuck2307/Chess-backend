@@ -43,7 +43,17 @@ jobs:
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
 
       - run: |
-          curl -l localhost:8080/game/
+          MAX_ATTEMPTS=30  # Set the maximum number of attempts
+          ATTEMPT=0
+          while ! curl -s localhost:8080/game/; do
+          ((ATTEMPT++))  # Increment the attempt counter
+          if [ $ATTEMPT -ge $MAX_ATTEMPTS ]; then
+          echo "Maximum attempts reached, exiting..."
+          exit 1  # Exit with a non-zero status to indicate failure
+          fi
+          sleep 1  # Wait for 1 second before the next attempt
+          done
+          echo "Server is up!"
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
