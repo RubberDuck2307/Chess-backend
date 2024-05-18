@@ -17,13 +17,13 @@ spec:
     spec:
       containers:
         - name: chess-backend
-          image: local/backend:latest # Image to be used inside the cluster
+          image: backend:latest # Image to be used inside the cluster
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://db:5432/postgres"
+              value: "jdbc:postgresql://localhost:5432/postgres"
             - name: SPRING_DATASOURCE_USERNAME
               value: "postgres"
             - name: SPRING_DATASOURCE_PASSWORD
