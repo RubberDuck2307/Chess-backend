@@ -51,6 +51,6 @@ jobs:
   #
   deploy:
 #    needs: build
+    uses: ./.github/workflows/deploy_to_minikube.yaml
     permissions:
       contents: read
-    uses: ./.github/workflows/deploy_to_minikube.yaml
