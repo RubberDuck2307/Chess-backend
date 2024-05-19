@@ -49,14 +49,14 @@ jobs:
   #      id-token: write
   #    uses: ./.github/workflows/test_coverage.yaml
   #
-#  deploy:
-##    needs: build
-#    permissions:
-#      contents: read
-#    uses: ./.github/workflows/deploy_to_minikube.yaml
-
-  publish:
-#    needs: deploy
+  deploy:
+#    needs: build
     permissions:
       contents: read
-    uses: ./.github/workflows/publish_image.yaml
+    uses: ./.github/workflows/deploy_to_minikube.yaml
+
+#  publish:
+##    needs: deploy
+#    permissions:
+#      contents: read
+#    uses: ./.github/workflows/publish_image.yaml
