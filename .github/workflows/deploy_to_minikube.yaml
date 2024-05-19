@@ -27,7 +27,11 @@ jobs:
           docker images
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f ./k8s/deploy.yaml
+          kubectl apply -f ./k8s/config-map.yaml
+          kubectl apply -f ./k8s/secret.yaml
+          kubectl apply -f ./k8s/mysql-storage.yaml
+          kubectl apply -f ./k8s/backend-deployment.yaml
+          kubectl apply -f ./k8s/mysql-deployment.yaml
           kubectl apply -f ./k8s/service.yaml
           kubectl wait --for=condition=Ready pod -l app=chess-backend
           kubectl get all
@@ -38,10 +42,10 @@ jobs:
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
           kubectl get pods -l app=chess-backend
           kubectl get services chess-backend
-          POD_NAME=$(kubectl get pods -l app=chess-backend -o jsonpath='{.items[0].metadata.name}')
-          kubectl logs pod/$POD_NAME
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
           sleep 10
+          POD_NAME=$(kubectl get pods -l app=chess-backend -o jsonpath='{.items[0].metadata.name}')
+          kubectl logs pod/$POD_NAME
       - run: |
           curl -l localhost:8080/game/
       - name: Cleanup

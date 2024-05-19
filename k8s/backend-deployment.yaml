@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chess-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chess-backend
+  template:
+    metadata:
+      labels:
+        app: chess-backend
+    spec:
+      containers:
+        - name: chess-backend
+          image: backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql-service
+                  name: main-config-map
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql-port
+                  name: main-config-map
+            - name: MYSQL_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql-username
+                  name: main-config-map
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: mysql-password
+                  name: main-secret
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: mysql-db
+                  name: main-config-map
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chess-backend
+spec:
+  type: NodePort
+  selector:
+    app: chess-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30006
