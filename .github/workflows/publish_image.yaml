@@ -23,5 +23,5 @@ jobs:
           image_name=$(echo ${reponame_lowercase} | cut -f2 -d/)-img
           image_tag=ghcr.io/${reponame_lowercase}/${image_name}:latest
           echo "Image tag is ${image_tag}"
-          docker build . --tag ${image_tag}
+          docker build -f ./Dockerfile  --tag ${image_tag}
           docker push ${image_tag}
