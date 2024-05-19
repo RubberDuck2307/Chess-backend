@@ -42,8 +42,7 @@ jobs:
           kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
           kubectl get pods -l app=chess-backend
           kubectl get services chess-backend
-          kubectl port-forward service/chess-backend 8080:8080 &> /dev/null &
-          sleep 10
+          sleep 20
           POD_NAME=$(kubectl get pods -l app=chess-backend -o jsonpath='{.items[0].metadata.name}')
           kubectl logs pod/$POD_NAME
       - run: |
