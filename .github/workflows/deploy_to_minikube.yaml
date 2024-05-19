@@ -31,8 +31,8 @@ jobs:
           kubectl apply -f ./k8s/secret.yaml
           kubectl apply -f ./k8s/mysql-storage.yaml
           kubectl apply -f ./k8s/mysql-deployment.yaml
-          kubectl wait --for=condition=Ready pod -l app=mysql-service
-          kubectl apply -f ./k8s/mysql-deployment.yaml
+          kubectl wait --for=condition=Ready pod -l app=mysql-deployment
+          kubectl apply -f ./k8s/backend-deployment.yaml
           kubectl wait --for=condition=Ready pod -l app=chess-backend
           kubectl get all
       - name: Test service URLs
