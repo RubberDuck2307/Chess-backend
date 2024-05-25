@@ -62,5 +62,17 @@ jobs:
       contents: read
       pages: write
       id-token: write
-    #needs: deploy
-    uses: ./.github/workflows/publish_image.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_NAME }}
+          password: ${{ secrets.DOCKER_HUB_PASS }}
+      - name: Build and publish updated image
+        run: |
+          image_tag=rubberduck2307/${chess-backend}:latest
+          docker build -f ./Dockerfile  --tag ${image_tag} .
+          docker push ${image_tag}
