@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-image:
+  deploy_to_minikube:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
