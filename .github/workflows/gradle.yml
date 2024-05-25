@@ -58,12 +58,7 @@ jobs:
 
 
   publish:
-    runs-on: ubuntu-latest
     permissions:
       contents: read
-    steps:
-      - name: test_secret
-        run: echo ${{secrets.TEST_SECRET}}
-#    needs: deploy
-#    permissions: write-all
-#    uses: ./.github/workflows/publish_image.yaml
+    needs: deploy
+    uses: ./.github/workflows/publish_image.yaml
