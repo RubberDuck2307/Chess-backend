@@ -60,5 +60,7 @@ jobs:
   publish:
     permissions:
       contents: read
+      pages: write
+      id-token: write
     #needs: deploy
     uses: ./.github/workflows/publish_image.yaml
