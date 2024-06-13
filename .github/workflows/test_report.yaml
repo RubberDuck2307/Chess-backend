@@ -1,5 +1,4 @@
-# A workflow for deploying the Unit Tests coverage report to GitHub Pages
-name: Deploy coverage report to Pages
+name: Deploy test report to Pages
 
 on:
   # Called from elsewhere
@@ -31,12 +30,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test_report
-          path: coverage
+          path: test
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload the coverage directory from the repository
-          path: './coverage/'
+          path: './test/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
