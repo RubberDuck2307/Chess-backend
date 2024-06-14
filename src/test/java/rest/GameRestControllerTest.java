@@ -1,4 +1,4 @@
-package socket.socketcontroller;
+package rest;
 
 import org.example.Main;
 import org.example.persistence.game.GameEntity;
