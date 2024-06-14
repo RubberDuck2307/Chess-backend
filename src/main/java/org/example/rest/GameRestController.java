@@ -1,6 +1,9 @@
 package org.example.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.example.model.Game;
+import org.example.persistence.game.GameEntity;
+import org.example.rest.dto.game.GameGetDto;
 import org.example.rest.dto.game.NewGameResponseDto;
 import org.example.service.GameService;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +23,24 @@ public class GameRestController {
 
     @PostMapping("/")
     public ResponseEntity<NewGameResponseDto> createGame() {
-        long id = gameService.createGame(Set.of(1L, 2L));
+        long id = gameService.createGame();
         logger.info("Game created with id " + id);
         return ResponseEntity.ok(new NewGameResponseDto(id));
     }
 
-    @GetMapping("/")
-    public ResponseEntity<String> getGame() {
-        return ResponseEntity.ok("Hello World");
+    @GetMapping("/{id}")
+    public ResponseEntity<GameGetDto> getGame(@PathVariable String id) {
+        long idLong;
+        try {
+            idLong = Long.parseLong(id);
+        } catch (NumberFormatException e){
+            return ResponseEntity.badRequest().build();
+        }
+        Game game = gameService.getGame(idLong);
+        if (game == null){
+            return ResponseEntity.badRequest().build();
+        }
+        GameGetDto dto = new GameGetDto(game.getId());
+        return ResponseEntity.ok(dto);
     }
 }

@@ -10,6 +10,16 @@ import java.util.Set;
 @Setter
 @Getter
 public class GameEntity {
+
+    public GameEntity(){
+
+    }
+
+    public GameEntity(long id, Set<MoveEntity> moves) {
+        this.id = id;
+        this.moves = moves;
+    }
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;

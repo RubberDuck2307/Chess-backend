@@ -27,6 +27,12 @@ public class Game {
         this.board.reset();
     }
 
+    public Game(Long id) {
+        this.id = id;
+        this.board = new Board();
+        this.board.reset();
+    }
+
     public PlayerColor getCurrentPlayerColor() {
         return board.isWhiteToMove() ? PlayerColor.WHITE : PlayerColor.BLACK;
     }

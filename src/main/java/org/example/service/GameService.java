@@ -6,15 +6,13 @@ import org.example.persistence.game.GameEntity;
 import org.example.persistence.repo.GameRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 public class GameService {
 
     private final GameRepository gameRepository;
 
-    public long createGame(Set<Long> playerId) {
+    public long createGame() {
         GameEntity game = gameRepository.save(new GameEntity());
         return game.getId();
     }
@@ -29,6 +27,6 @@ public class GameService {
         if (game == null) {
             return null;
         }
-        return new Game();
+        return new Game(game.getId());
     }
 }
