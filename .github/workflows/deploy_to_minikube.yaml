@@ -47,7 +47,7 @@ jobs:
           POD_NAME=$(kubectl get pods -l app=chess-backend -o jsonpath='{.items[0].metadata.name}')
           kubectl logs pod/$POD_NAME
       - run: |
-          curl -l localhost:8080/game/
+          curl -l localhost:8080/health/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
