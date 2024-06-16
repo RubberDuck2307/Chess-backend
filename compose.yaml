@@ -15,6 +15,7 @@ services:
     image: postgres:14.7-alpine3.17
     ports:
       - 5432:5432
+    restart: always
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
