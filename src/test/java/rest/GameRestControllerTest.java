@@ -32,25 +32,25 @@ public class GameRestControllerTest {
     }
 
     @Test
-    public void createNewGame() {
+    public void createNewGameCreatesGame() {
         var response = gameRestController.createGame();
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
         Mockito.verify(repository, Mockito.times(1)).save(Mockito.any());
     }
     @Test
-    public void getGameCorrectId(){
+    public void getGameCorrectIdReturnsGame(){
         var response = gameRestController.getGame(String.valueOf(mockedGameObject.getId()));
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
         Assertions.assertEquals(response.getBody().getId(), mockedGameObject.getId());
         Mockito.verify(repository, Mockito.times(1)).findById(mockedGameObject.getId());
     }
 
-    @Test public void getGameUnknownId(){
+    @Test public void getGameUnknownIdReturnsError(){
         var response = gameRestController.getGame("2");
         Assertions.assertTrue(response.getStatusCode().is4xxClientError());
     }
 
-    @Test public void getGameInvalidFormatId(){
+    @Test public void getGameInvalidFormatIdReturnsError(){
         var response = gameRestController.getGame("Id");
         Assertions.assertTrue(response.getStatusCode().is4xxClientError());
     }
